@@ -104,24 +104,24 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="libARNetworkAL-3.8" level="project" />
-    <orderEntry type="library" exported="" name="libARUpdater-3.8" level="project" />
-    <orderEntry type="library" exported="" name="libARDiscovery-3.8" level="project" />
-    <orderEntry type="library" exported="" name="libARMedia-3.8" level="project" />
-    <orderEntry type="library" exported="" name="sanselan-0.97-incubator" level="project" />
-    <orderEntry type="library" exported="" name="libARStream2-3.8" level="project" />
-    <orderEntry type="library" exported="" name="arsdk-3.8" level="project" />
     <orderEntry type="library" exported="" name="libARUtils-3.8" level="project" />
-    <orderEntry type="library" exported="" name="libARSAL-3.8" level="project" />
-    <orderEntry type="library" exported="" name="libARMavlink-3.8" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="arsdk-3.8" level="project" />
+    <orderEntry type="library" exported="" name="libARUpdater-3.8" level="project" />
+    <orderEntry type="library" exported="" name="sanselan-0.97-incubator" level="project" />
+    <orderEntry type="library" exported="" name="libARController-3.8" level="project" />
+    <orderEntry type="library" exported="" name="libARDiscovery-3.8" level="project" />
+    <orderEntry type="library" exported="" name="libARStream-3.8" level="project" />
     <orderEntry type="library" exported="" name="libARDataTransfer-3.8" level="project" />
+    <orderEntry type="library" exported="" name="libARNetworkAL-3.8" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="libARStream2-3.8" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="libARCommands-3.8" level="project" />
     <orderEntry type="library" exported="" name="libARNetwork-3.8" level="project" />
-    <orderEntry type="library" exported="" name="libARStream-3.8" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-23.1.1" level="project" />
-    <orderEntry type="library" exported="" name="libARController-3.8" level="project" />
     <orderEntry type="library" exported="" name="jmdns-3.4.1" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-23.1.1" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="libARSAL-3.8" level="project" />
+    <orderEntry type="library" exported="" name="libARMavlink-3.8" level="project" />
+    <orderEntry type="library" exported="" name="libARMedia-3.8" level="project" />
   </component>
 </module>
