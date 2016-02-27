@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class ParrotDiscovery implements ARDiscoveryServicesDevicesListUpdatedReceiverDelegate {
 
-    private Context mContext;
+    private final Context mContext;
     private ARDiscoveryService mDiscoveryService;
     private ServiceConnection mDiscoveryServiceConnection;
     private ARDiscoveryServicesDevicesListUpdatedReceiver mDiscoveryDevicesUpdatedReceiver;
