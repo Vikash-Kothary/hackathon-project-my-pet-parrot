@@ -23,8 +23,6 @@ import com.parrot.arsdk.ardiscovery.receivers.ARDiscoveryServicesDevicesListUpda
 import com.parrot.arsdk.ardiscovery.receivers.ARDiscoveryServicesDevicesListUpdatedReceiverDelegate;
 import com.parrot.arsdk.arsal.ARSALPrint;
 import com.parrot.arsdk.arsal.ARSAL_PRINT_LEVEL_ENUM;
-import com.parrot.bebopdronepiloting.R;
-import com.robotpets.mypetparrot.PilotingActivity;
 
 import java.util.ArrayList;
 import java.util.List;

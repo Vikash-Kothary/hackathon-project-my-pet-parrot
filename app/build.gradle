@@ -28,11 +28,9 @@ dependencies {
 
 }
 
-buildscript {
-    repositories {
-        maven {
-            url 'C:\\Users\\Vikash Kothary\\Documents\\GitHub\\MyPetParrot\\lib\\myo-android-sdk-0.10.0';
-        }
+repositories {
+    maven {
+        url 'C:\\Users\\Vikash Kothary\\Documents\\GitHub\\MyPetParrot\\lib\\myo-android-sdk-0.10.0';
     }
 }
 
