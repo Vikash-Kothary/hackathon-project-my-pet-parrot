@@ -13,7 +13,7 @@ import com.parrot.arsdk.arcontroller.ARDeviceController;
  */
 public class Commands {
 
-    ARDeviceController deviceController;
+    final ARDeviceController deviceController;
 
     public Commands(ARDeviceController deviceController){
         this.deviceController = deviceController;

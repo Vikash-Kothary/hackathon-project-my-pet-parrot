@@ -157,6 +157,7 @@ public class MyoActivity extends ActionBarActivity {
             }
         }
     };
+    private Commands commands;
 
     private Vector idle(){
         Vector ret= new Vector();
@@ -191,6 +192,7 @@ public class MyoActivity extends ActionBarActivity {
     }
     private void sit(){
         Log.i("cmd","sit");
+        commands.landing();
     }
     private void bark(){
         Log.i("cmd","bark");
@@ -224,7 +226,9 @@ public class MyoActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mLockStateView = (TextView) findViewById(R.id.lock_state);
+        commands = ((CommandsParcelable) getIntent().getParcelableExtra("Commands")).getCommands();
+
+//        mLockStateView = (TextView) findViewById(R.id.lock_state);
         mTextView = (TextView) findViewById(R.id.text);
 
         // First, we initialize the Hub singleton with an application identifier.

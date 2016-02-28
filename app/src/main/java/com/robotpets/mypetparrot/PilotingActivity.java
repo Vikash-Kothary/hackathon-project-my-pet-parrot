@@ -92,6 +92,14 @@ public class PilotingActivity extends Activity implements ARDeviceControllerList
             } catch (ARControllerException e) {
                 e.printStackTrace();
             }
+
+
+            if(commands!=null){
+                // Launch the MyoActivity to scan for Myos to connect to.
+                Intent i = new Intent(this, MyoActivity.class);
+                i.putExtra("Commands", new CommandsParcelable(commands));
+                startActivity(intent);
+            }
         }
     }
 
