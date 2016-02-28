@@ -209,8 +209,8 @@ public class MyoActivity extends ActionBarActivity {
     private Vector pointAndGo(){
         commands.takeOff();
         Log.i("cmd","point");
-        double target_xloc=4*java.lang.Math.tan(y_angle);
-        double target_yloc=target_xloc/java.lang.Math.tan(x_angle);
+        double target_xloc=-4*java.lang.Math.tan(Math.toRadians(x_angle));
+        double target_yloc=4;
         double xloc=target_xloc - GlobalValues.getInstance().drone_xloc;
         double yloc=target_yloc - GlobalValues.getInstance().drone_yloc;
 
