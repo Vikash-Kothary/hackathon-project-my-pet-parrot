@@ -39,6 +39,7 @@ public class HelloMorseActivity extends AppCompatActivity {
     private long time_start,time_curr;
     private double init_z_angle=190;
     private double z_angle;
+    private String msg;
     // Classes that inherit from AbstractDeviceListener can be used to receive events from Myo devices.
     // If you do not override an event, the default behavior is to do nothing.
     private DeviceListener mListener = new AbstractDeviceListener() {
@@ -46,6 +47,7 @@ public class HelloMorseActivity extends AppCompatActivity {
         @Override
         public void onConnect(Myo myo, long timestamp) {
             myo.unlock(Myo.UnlockType.HOLD);
+
         }
         // onDisconnect() is called whenever a Myo has been disconnected.
         @Override
@@ -83,7 +85,7 @@ public class HelloMorseActivity extends AppCompatActivity {
         public void onOrientationData(Myo myo, long timestamp, Quaternion rotation) {
             // Calculate Euler angles (roll, pitch, and yaw) from the quaternion.
             time_curr=timestamp;
-            if(typing && time_curr-time_start> 3000){
+            if(typing && time_curr-time_start> 5000){
                 Log.e("Times Up","");
                 pushChar();
             }
@@ -93,6 +95,9 @@ public class HelloMorseActivity extends AppCompatActivity {
                 z_angle = Math.toDegrees(Quaternion.roll(rotation)) - init_z_angle;
             }
             Log.d("time", String.valueOf(timestamp));
+            if(myo.isUnlocked()){
+                Log.e("something", "content");
+            }
         }
         // onPose() is called whenever a Myo provides a new pose.
         @Override
@@ -104,9 +109,11 @@ public class HelloMorseActivity extends AppCompatActivity {
                     break;
                 case REST:
                 case DOUBLE_TAP:
+
                     break;
                 case FIST:
                     typing=true;
+                    myo.vibrate(Myo.VibrationType.SHORT);
                     morse_code[morse_ctr] = Math.abs(z_angle)>5 ? 2 : 1;
                     time_start=timestamp;
                     Log.i("FIST", String.valueOf(morse_code[morse_ctr]));
@@ -127,9 +134,10 @@ public class HelloMorseActivity extends AppCompatActivity {
     };
 
     private char pushChar(){
+
         typing=false;
         morse_ctr=0;
-        char[] table= {'|','E','T','I','A','N','M','S','U','R','W','D','K','G','O','H','V','F',' ','L',' ','P','J','B','X','C','Y','Z','Q','|','|'};
+        char[] table= {'|','E','T','I','A','N','M','S','U','R','W','D','K','G','O','H','V','F',' ','L',' ','P','J','B','X','C','Y','Z','Q',' ','|'};
         int ind=1;
         for(int i=0;i<4;i++){
             if(morse_code[i]==1) ind*=2;
@@ -137,9 +145,18 @@ public class HelloMorseActivity extends AppCompatActivity {
         }
         ind--;
 
+
         morse_code=new int[4];
-        Log.i("letter", String.valueOf(table[ind]));
+        Log.e("letter", String.valueOf(table[ind]));
+
+        //msg += String.valueOf(table[ind]);
+        TextView output = (TextView) findViewById(R.id.textView4);
+
+        output.setText(output.getText() + String.valueOf(table[ind]));
+
+
         return table[ind];
+
     }
 
     @Override
@@ -200,4 +217,5 @@ public class HelloMorseActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ScanActivity.class);
         startActivity(intent);
     }
+
 }

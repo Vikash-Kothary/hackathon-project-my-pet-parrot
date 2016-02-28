@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.parrot.arsdk.ardiscovery.ARDISCOVERY_PRODUCT_ENUM;
@@ -73,12 +74,14 @@ public class MainActivity extends AppCompatActivity implements ARDiscoveryServic
     private boolean ardiscoveryServiceBound = false;
     private ServiceConnection ardiscoveryServiceConnection;
     private BroadcastReceiver ardiscoveryServicesDevicesListUpdatedReceiver;
+    private Button btnMorse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
 
         mVisible = true;
         // Upon interacting with UI controls, delay any scheduled hide()
@@ -95,6 +98,15 @@ public class MainActivity extends AppCompatActivity implements ARDiscoveryServic
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, deviceNameList);
 
+
+        btnMorse = (Button) findViewById(R.id.btnMorse);
+
+        btnMorse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchMorseMyo();
+            }
+        });
 
         // Assign adapter to ListView
         listView.setAdapter(adapter);

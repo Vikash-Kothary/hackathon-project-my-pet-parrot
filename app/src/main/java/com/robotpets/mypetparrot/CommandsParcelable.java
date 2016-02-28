@@ -9,17 +9,13 @@ import java.io.Serializable;
 /**
  * Created by Vikash Kothary on 28-Feb-16.
  */
-public class CommandsParcelable implements  Serializable{
+public class CommandsParcelable {
 
-    public Commands getCommands() {
+    public static Commands getCommands() {
         return mCommands;
     }
 
-    public void setCommands(Commands mCommands) {
-        this.mCommands = mCommands;
-    }
-
-    private Commands mCommands;
+    private static Commands mCommands;
 
     public CommandsParcelable(Commands commands){
         mCommands = commands;

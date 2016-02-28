@@ -13,7 +13,7 @@ import com.parrot.arsdk.arcontroller.ARDeviceController;
  */
 public class Commands {
 
-    final ARDeviceController deviceController;
+    private ARDeviceController deviceController;
 
     public Commands(ARDeviceController deviceController){
         this.deviceController = deviceController;
@@ -51,7 +51,9 @@ public class Commands {
                 break;
 
             case MotionEvent.ACTION_UP:
-                v.setPressed(false);
+                if(v!=null){
+                    v.setPressed(false);
+                }
                 if (deviceController != null) {
                     deviceController.getFeatureMiniDrone().setPilotingPCMDGaz((byte) 0);
 

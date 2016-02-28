@@ -26,8 +26,192 @@ import com.parrot.arsdk.ardiscovery.ARDiscoveryDeviceBLEService;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryDeviceService;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryException;
 import com.parrot.arsdk.ardiscovery.ARDiscoveryService;
+import com.thalmic.myo.AbstractDeviceListener;
+import com.thalmic.myo.Arm;
+import com.thalmic.myo.DeviceListener;
+import com.thalmic.myo.Myo;
+import com.thalmic.myo.Pose;
+import com.thalmic.myo.Quaternion;
+import com.thalmic.myo.XDirection;
+
+import java.util.Vector;
 
 public class PilotingActivity extends Activity implements ARDeviceControllerListener {
+
+    private TextView mLockStateView;
+    private TextView mTextView;
+
+    private double init_x_angle=190;
+    private double init_y_angle;
+    private double init_z_angle;
+
+    private double x_angle;
+    private double y_angle;
+    private double z_angle;
+
+    // Classes that inherit from AbstractDeviceListener can be used to receive events from Myo devices.
+    // If you do not override an event, the default behavior is to do nothing.
+    private DeviceListener mListener = new AbstractDeviceListener() {
+        // onConnect() is called whenever a Myo has been connected.
+        @Override
+        public void onConnect(Myo myo, long timestamp) {
+        }
+        // onDisconnect() is called whenever a Myo has been disconnected.
+        @Override
+        public void onDisconnect(Myo myo, long timestamp) {
+            // Set the text color of the text view to red when a Myo disconnects.
+
+        }
+        // onArmSync() is called whenever Myo has recognized a Sync Gesture after someone has put it on their
+        // arm. This lets Myo know which arm it's on and which way it's facing.
+        @Override
+        public void onArmSync(Myo myo, long timestamp, Arm arm, XDirection xDirection) {
+            myo.unlock(Myo.UnlockType.HOLD);
+        }
+        // onArmUnsync() is called whenever Myo has detected that it was moved from a stable position on a person's arm after
+        // it recognized the arm. Typically this happens when someone takes Myo off of their arm, but it can also happen
+        // when Myo is moved around on the arm.
+        @Override
+        public void onArmUnsync(Myo myo, long timestamp) {
+            init_x_angle=0;
+            init_y_angle=0;
+            init_z_angle=0;
+        }
+        // onUnlock() is called whenever a synced Myo has been unlocked. Under the standard locking
+        // policy, that means poses will now be delivered to the listener.
+        @Override
+        public void onUnlock(Myo myo, long timestamp) {
+            mLockStateView.setText("unlocked");
+        }
+        // onLock() is called whenever a synced Myo has been locked. Under the standard locking
+        // policy, that means poses will no longer be delivered to the listener.
+        @Override
+        public void onLock(Myo myo, long timestamp) {
+            mLockStateView.setText("locked");
+        }
+        // onOrientationData() is called whenever a Myo provides its current orientation,
+        // represented as a quaternion.
+        @Override
+        public void onOrientationData(Myo myo, long timestamp, Quaternion rotation) {
+            // Calculate Euler angles (roll, pitch, and yaw) from the quaternion.
+            if(init_x_angle>180){
+                init_y_angle = Math.toDegrees(Quaternion.pitch(rotation));
+                init_x_angle = Math.toDegrees(Quaternion.yaw(rotation));
+                init_z_angle = Math.toDegrees(Quaternion.roll(rotation));
+
+                String s = init_x_angle + ", " + init_y_angle + ", " + init_z_angle;
+                Log.i("init", s);
+            }else {
+                y_angle = Math.toDegrees(Quaternion.pitch(rotation)) - init_y_angle;
+                x_angle = Math.toDegrees(Quaternion.yaw(rotation)) - init_x_angle;
+                z_angle = Math.toDegrees(Quaternion.roll(rotation)) - init_z_angle;
+
+                String s = x_angle + ", " + y_angle + ", " + z_angle;
+                Log.d("orientation", s);
+            }
+        }
+        // onPose() is called whenever a Myo provides a new pose.
+        @Override
+        public void onPose(Myo myo, long timestamp, Pose pose) {
+            // Handle the cases of the Pose enumeration, and change the text of the text view
+            // based on the pose we receive.
+            switch (pose) {
+                case UNKNOWN:
+                    break;
+                case REST:
+                case DOUBLE_TAP:
+                    //Log.i("tap","a");
+                    //bark();
+                    break;
+                case FIST:
+                    Log.i("fist_data", String.valueOf(z_angle));
+                    if (Math.abs(z_angle) > 15) rollover();
+                    else pointAndGo();
+                    break;
+                case WAVE_IN:
+                    Log.i("in_data", String.valueOf(z_angle));
+                    if (z_angle > 8) sit();
+                    else if (z_angle < -8) come();
+                    break;
+                case WAVE_OUT:
+                    Log.i("out_data", String.valueOf(z_angle));
+                    if (z_angle > 8) stay();
+                    else idle();
+                    break;
+                case FINGERS_SPREAD:
+                    chaseTail();
+                    break;
+            }
+        }
+    };
+
+    private Vector idle(){
+        Vector ret= new Vector();
+
+        double x=(Math.random()-.5) * 3;
+        double y=(Math.random()-.5) * 3;
+
+        //updating with predetermined location
+        GlobalValues.getInstance().drone_yloc += y;
+        GlobalValues.getInstance().drone_xloc += x;
+        Log.i("loc","IDLE vector: ("+x+", "+y+") loc: ("+GlobalValues.getInstance().drone_xloc+", "
+                +GlobalValues.getInstance().drone_yloc+")");
+
+        return ret;
+    }
+    private Vector come(){
+        for(int i=0;i<10;i++){
+            commands.up(null,null);
+        }
+        Log.i("cmd","come");
+        Vector ret= new Vector();
+        double xloc=-GlobalValues.getInstance().drone_xloc;
+        double yloc=-GlobalValues.getInstance().drone_yloc;
+
+        //updating with predetermined location
+        GlobalValues.getInstance().drone_yloc=0;
+        GlobalValues.getInstance().drone_xloc=0;
+
+        Log.i("loc","COME vector: ("+xloc+", "+yloc+") loc: ("+GlobalValues.getInstance().drone_xloc+", "
+                +GlobalValues.getInstance().drone_yloc+")");
+        return ret;
+    }
+    private void stay(){
+        Log.i("cmd","stay");
+    }
+    private void sit(){
+        Log.i("cmd","sit");
+        commands.landing();
+    }
+    private void bark(){
+        Log.i("cmd","bark");
+    }
+    private void rollover(){
+        Log.i("cmd","rollover");
+    }
+    private void chaseTail(){
+        Log.i("cmd","chaseTail");
+    }
+    private Vector pointAndGo(){
+        commands.takeOff();
+        Log.i("cmd","point");
+        double target_xloc=4*java.lang.Math.tan(y_angle);
+        double target_yloc=target_xloc/java.lang.Math.tan(x_angle);
+        double xloc=target_xloc - GlobalValues.getInstance().drone_xloc;
+        double yloc=target_yloc - GlobalValues.getInstance().drone_yloc;
+
+        //updating with predetermined location
+        GlobalValues.getInstance().drone_yloc=target_yloc;
+        GlobalValues.getInstance().drone_xloc=target_xloc;
+        Vector ret=new Vector();
+
+        Log.i("loc","GO vector: ("+xloc+", "+yloc+") loc: ("+GlobalValues.getInstance().drone_xloc+", "
+                +GlobalValues.getInstance().drone_yloc+")");
+
+        return ret;
+    }
+
+
     private static String TAG = PilotingActivity.class.getSimpleName();
     public static String EXTRA_DEVICE_SERVICE = "pilotingActivity.extra.device.service";
 
@@ -96,14 +280,6 @@ public class PilotingActivity extends Activity implements ARDeviceControllerList
                 e.printStackTrace();
             }
 
-
-            if(commands!=null){
-                // Launch the MyoActivity to scan for Myos to connect to.
-                Intent i = new Intent(this, MyoActivity.class);
-                commandsParcelable = new CommandsParcelable(commands);
-                i.putExtra("Commands", commandsParcelable);
-                startActivity(intent);
-            }
         }
     }
 

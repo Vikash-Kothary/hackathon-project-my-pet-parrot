@@ -174,6 +174,9 @@ public class MyoActivity extends ActionBarActivity {
         return ret;
     }
     private Vector come(){
+        for(int i=0;i<10;i++){
+            commands.up(null,null);
+        }
         Log.i("cmd","come");
         Vector ret= new Vector();
         double xloc=-GlobalValues.getInstance().drone_xloc;
@@ -204,6 +207,7 @@ public class MyoActivity extends ActionBarActivity {
         Log.i("cmd","chaseTail");
     }
     private Vector pointAndGo(){
+        commands.takeOff();
         Log.i("cmd","point");
         double target_xloc=4*java.lang.Math.tan(y_angle);
         double target_yloc=target_xloc/java.lang.Math.tan(x_angle);
@@ -226,7 +230,7 @@ public class MyoActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        commands = ((CommandsParcelable) getIntent().getParcelableExtra("Commands")).getCommands();
+        commands = CommandsParcelable.getCommands();
 
 //        mLockStateView = (TextView) findViewById(R.id.lock_state);
         mTextView = (TextView) findViewById(R.id.text);
