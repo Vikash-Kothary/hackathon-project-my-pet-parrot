@@ -27,12 +27,15 @@ dependencies {
     compile 'com.parrot:arsdk:3.8'
 }
 
-buildscript {
+dependencies {
     repositories {
         maven {
-            url 'C:\\Users\\Vikash Kothary\\Documents\\GitHub\\MyPetParrot\\lib\\myo-android-sdk-0.10.0';
+            // this must point to the myorepository distributed with the Myo SDK
+            url '/Users/stevenhuang/Downloads/myo-android-sdk-0.10.0/myorepository'
         }
     }
+
+    compile 'com.thalmic:myosdk:0.10.0@aar'
 }
 
 repositories {
