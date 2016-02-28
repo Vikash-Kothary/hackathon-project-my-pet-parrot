@@ -7,6 +7,7 @@ package com.robotpets.mypetparrot;/*
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,7 +28,7 @@ import com.thalmic.myo.scanner.ScanActivity;
 import java.util.Timer;
 import java.util.Vector;
 
-public class HelloMorseActivity extends Activity {
+public class HelloMorseActivity extends AppCompatActivity {
 
     private TextView mLockStateView;
     private TextView mTextView;
@@ -144,7 +145,7 @@ public class HelloMorseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_hello_world);
+        setContentView(R.layout.activity_hello_morse);
 
 //        mLockStateView = (TextView) findViewById(R.id.lock_state);
         mTextView = (TextView) findViewById(R.id.text);

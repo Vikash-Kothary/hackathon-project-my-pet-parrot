@@ -48,6 +48,7 @@
             android:name=".MyoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name" ></activity>
+
         <activity
             android:name=".HelloMorseActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

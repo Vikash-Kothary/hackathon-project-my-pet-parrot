@@ -245,5 +245,10 @@ public class MainActivity extends AppCompatActivity implements ARDiscoveryServic
         }
 
     }
+
+    public void launchMorseMyo(){
+        Intent i = new Intent(this, HelloMorseActivity.class);
+        startActivity(i);
+    }
 }
 

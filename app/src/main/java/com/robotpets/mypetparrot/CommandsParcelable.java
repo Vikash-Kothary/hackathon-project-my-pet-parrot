@@ -3,11 +3,13 @@ package com.robotpets.mypetparrot;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 
 /**
  * Created by Vikash Kothary on 28-Feb-16.
  */
-public class CommandsParcelable implements Parcelable {
+public class CommandsParcelable implements  Serializable{
 
     public Commands getCommands() {
         return mCommands;
@@ -26,7 +28,7 @@ public class CommandsParcelable implements Parcelable {
     protected CommandsParcelable(Parcel in) {
     }
 
-    public static final Creator<CommandsParcelable> CREATOR = new Creator<CommandsParcelable>() {
+    public static final Parcelable.Creator<CommandsParcelable> CREATOR = new Parcelable.Creator<CommandsParcelable>() {
         @Override
         public CommandsParcelable createFromParcel(Parcel in) {
             return new CommandsParcelable(in);
@@ -38,12 +40,5 @@ public class CommandsParcelable implements Parcelable {
         }
     };
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-    }
 }

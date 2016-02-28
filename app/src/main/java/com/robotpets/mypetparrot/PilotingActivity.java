@@ -57,6 +57,9 @@ public class PilotingActivity extends Activity implements ARDeviceControllerList
 
     private Commands commands;
 
+
+    private static CommandsParcelable commandsParcelable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +100,8 @@ public class PilotingActivity extends Activity implements ARDeviceControllerList
             if(commands!=null){
                 // Launch the MyoActivity to scan for Myos to connect to.
                 Intent i = new Intent(this, MyoActivity.class);
-                i.putExtra("Commands", new CommandsParcelable(commands));
+                commandsParcelable = new CommandsParcelable(commands);
+                i.putExtra("Commands", commandsParcelable);
                 startActivity(intent);
             }
         }
