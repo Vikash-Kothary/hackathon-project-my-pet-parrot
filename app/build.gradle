@@ -24,15 +24,22 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:support-v4:23.1.1'
-    compile 'com.parrot:arsdk:3.8'
+    compile 'com.parrot:arsdk:3.8+'
+
 }
 
+<<<<<<< HEAD
 dependencies {
     repositories {
         maven {
             // this must point to the myorepository distributed with the Myo SDK
             url '/Users/stevenhuang/Downloads/myo-android-sdk-0.10.0/myorepository'
         }
+=======
+repositories {
+    maven {
+        url 'C:\\Users\\Vikash Kothary\\Documents\\GitHub\\MyPetParrot\\lib\\myo-android-sdk-0.10.0';
+>>>>>>> refs/remotes/origin/drone-set-up
     }
 
     compile 'com.thalmic:myosdk:0.10.0@aar'
