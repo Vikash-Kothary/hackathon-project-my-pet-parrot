@@ -1,11 +1,16 @@
 package com.robotpets.mypetparrot;
 
+<<<<<<< HEAD
+import android.annotation.SuppressLint;
+import android.app.Activity;
+=======
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+>>>>>>> refs/remotes/origin/drone-set-up
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
@@ -56,12 +61,41 @@ public class MainActivity extends ActionBarActivity implements ARDiscoveryServic
     private List<ARDiscoveryDeviceService> deviceList;
     private String[] deviceNameList;
 
+<<<<<<< HEAD
+/**
+ * An example full-screen activity that shows and hides the system UI (i.e.
+ * status bar and navigation/system bar) with user interaction.
+ */
+public class MainActivity extends Activity {
+    /**
+     * Whether or not the system UI should be auto-hidden after
+     * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
+     */
+    private static final boolean AUTO_HIDE = true;
+
+    /**
+     * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
+     * user interaction before hiding the system UI.
+     */
+    private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
+
+    /**
+     * Some older devices needs a small delay between UI widget updates
+     * and a change of the status and navigation bar.
+     */
+    private static final int UI_ANIMATION_DELAY = 300;
+
+    private View mContentView;
+    private View mControlsView;
+    private boolean mVisible;
+=======
     private ARDiscoveryService ardiscoveryService;
     private boolean ardiscoveryServiceBound = false;
     private ServiceConnection ardiscoveryServiceConnection;
     public IBinder discoveryServiceBinder;
 
     private BroadcastReceiver ardiscoveryServicesDevicesListUpdatedReceiver;
+>>>>>>> refs/remotes/origin/drone-set-up
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -70,6 +104,13 @@ public class MainActivity extends ActionBarActivity implements ARDiscoveryServic
 
         setContentView(R.layout.activity_main);
 
+<<<<<<< HEAD
+        mVisible = true;
+        // Upon interacting with UI controls, delay any scheduled hide()
+        // operations to prevent the jarring behavior of controls going away
+        // while interacting with the UI.
+
+=======
         initBroadcastReceiver();
         initServiceConnection();
 
@@ -118,6 +159,7 @@ public class MainActivity extends ActionBarActivity implements ARDiscoveryServic
 
             ardiscoveryService.start();
         }
+>>>>>>> refs/remotes/origin/drone-set-up
     }
 
     private void closeServices()
@@ -169,10 +211,21 @@ public class MainActivity extends ActionBarActivity implements ARDiscoveryServic
         };
     }
 
+<<<<<<< HEAD
+    private void hide() {
+        // Hide UI first
+        android.app.ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
+        mControlsView.setVisibility(View.GONE);
+        mVisible = false;
+=======
     private void registerReceivers()
     {
         LocalBroadcastManager localBroadcastMgr = LocalBroadcastManager.getInstance(getApplicationContext());
         localBroadcastMgr.registerReceiver(ardiscoveryServicesDevicesListUpdatedReceiver, new IntentFilter(ARDiscoveryService.kARDiscoveryServiceNotificationServicesDevicesListUpdated));
+>>>>>>> refs/remotes/origin/drone-set-up
 
     }
 
@@ -209,6 +262,15 @@ public class MainActivity extends ActionBarActivity implements ARDiscoveryServic
         super.onPause();
     }
 
+<<<<<<< HEAD
+    private final Runnable mShowPart2Runnable = new Runnable() {
+        @Override
+        public void run() {
+            // Delayed display of UI elements
+            android.app.ActionBar actionBar = getActionBar();
+            if (actionBar != null) {
+                actionBar.show();
+=======
     @Override
     public void onServicesDevicesListUpdated()
     {
@@ -241,6 +303,7 @@ public class MainActivity extends ActionBarActivity implements ARDiscoveryServic
                         deviceNames.add(service.getName());
                     }
                 }
+>>>>>>> refs/remotes/origin/drone-set-up
             }
 
             deviceNameList = deviceNames.toArray(new String[deviceNames.size()]);
