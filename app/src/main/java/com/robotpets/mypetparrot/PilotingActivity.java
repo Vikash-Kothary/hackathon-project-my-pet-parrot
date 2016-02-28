@@ -55,6 +55,8 @@ public class PilotingActivity extends Activity implements ARDeviceControllerList
 
     private RelativeLayout view;
 
+    private Commands commands;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +85,10 @@ public class PilotingActivity extends Activity implements ARDeviceControllerList
                 //create the deviceController
                 deviceController = new ARDeviceController(device);
                 deviceController.addListener(this);
+
+                // Commands class
+                commands = new Commands(deviceController);
+
             } catch (ARControllerException e) {
                 e.printStackTrace();
             }
@@ -95,29 +101,20 @@ public class PilotingActivity extends Activity implements ARDeviceControllerList
         emergencyBt = (Button) findViewById(R.id.emergencyBt);
         emergencyBt.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if ((deviceController != null) && (deviceController.getFeatureMiniDrone() != null)) {
-                    ARCONTROLLER_ERROR_ENUM error = deviceController.getFeatureMiniDrone().sendPilotingEmergency();
-                }
+                commands.emergency();
             }
         });
 
         takeoffBt = (Button) findViewById(R.id.takeoffBt);
         takeoffBt.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if ((deviceController != null) && (deviceController.getFeatureMiniDrone() != null)) {
-
-                    //send takeOff
-                    ARCONTROLLER_ERROR_ENUM error = deviceController.getFeatureMiniDrone().sendPilotingTakeOff();
-                }
+                commands.takeOff();
             }
         });
         landingBt = (Button) findViewById(R.id.landingBt);
         landingBt.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if ((deviceController != null) && (deviceController.getFeatureMiniDrone() != null)) {
-                    //send landing
-                    ARCONTROLLER_ERROR_ENUM error = deviceController.getFeatureMiniDrone().sendPilotingLanding();
-                }
+                commands.landing();
             }
         });
 
@@ -125,28 +122,7 @@ public class PilotingActivity extends Activity implements ARDeviceControllerList
         gazUpBt.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.setPressed(true);
-                        if (deviceController != null) {
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDGaz((byte) 50);
-                        }
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        v.setPressed(false);
-                        if (deviceController != null) {
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDGaz((byte) 0);
-
-                        }
-                        break;
-
-                    default:
-
-                        break;
-                }
-
-                return true;
+                return commands.up(v, event);
             }
         });
 
@@ -154,84 +130,21 @@ public class PilotingActivity extends Activity implements ARDeviceControllerList
         gazDownBt.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.setPressed(true);
-                        if (deviceController != null) {
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDGaz((byte) -50);
-
-                        }
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        v.setPressed(false);
-                        if (deviceController != null) {
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDGaz((byte) 0);
-                        }
-                        break;
-
-                    default:
-
-                        break;
-                }
-
-                return true;
+                return commands.down(v, event);
             }
         });
         yawLeftBt = (Button) findViewById(R.id.yawLeftBt);
         yawLeftBt.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.setPressed(true);
-                        if (deviceController != null) {
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDYaw((byte) -50);
-
-                        }
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        v.setPressed(false);
-                        if (deviceController != null) {
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDYaw((byte) 0);
-                        }
-                        break;
-
-                    default:
-
-                        break;
-                }
-
-                return true;
+                return commands.left(v, event);
             }
         });
         yawRightBt = (Button) findViewById(R.id.yawRightBt);
         yawRightBt.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.setPressed(true);
-                        if (deviceController != null) {
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDYaw((byte) 50);
-
-                        }
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        v.setPressed(false);
-                        if (deviceController != null) {
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDYaw((byte) 0);
-                        }
-                        break;
-
-                    default:
-
-                        break;
-                }
-
-                return true;
+                return commands.right(v, event);
             }
         });
 
@@ -239,116 +152,28 @@ public class PilotingActivity extends Activity implements ARDeviceControllerList
         forwardBt.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.setPressed(true);
-                        if (deviceController != null) {
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDPitch((byte) 50);
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDFlag((byte) 1);
-                        }
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        v.setPressed(false);
-                        if (deviceController != null) {
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDPitch((byte) 0);
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDFlag((byte) 0);
-                        }
-                        break;
-
-                    default:
-
-                        break;
-                }
-
-                return true;
+                return commands.forward(v, event);
             }
         });
         backBt = (Button) findViewById(R.id.backBt);
         backBt.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.setPressed(true);
-                        if (deviceController != null) {
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDPitch((byte) -50);
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDFlag((byte) 1);
-                        }
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        v.setPressed(false);
-                        if (deviceController != null) {
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDPitch((byte) 0);
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDFlag((byte) 0);
-                        }
-                        break;
-
-                    default:
-
-                        break;
-                }
-
-                return true;
+                return commands.back(v, event);
             }
         });
         rollLeftBt = (Button) findViewById(R.id.rollLeftBt);
         rollLeftBt.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.setPressed(true);
-                        if (deviceController != null) {
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDRoll((byte) -50);
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDFlag((byte) 1);
-                        }
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        v.setPressed(false);
-                        if (deviceController != null) {
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDRoll((byte) 0);
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDFlag((byte) 0);
-                        }
-                        break;
-
-                    default:
-
-                        break;
-                }
-
-                return true;
+                return commands.rollLeft(v, event);
             }
         });
         rollRightBt = (Button) findViewById(R.id.rollRightBt);
         rollRightBt.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.setPressed(true);
-                        if (deviceController != null) {
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDRoll((byte) 50);
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDFlag((byte) 1);
-                        }
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        v.setPressed(false);
-                        if (deviceController != null) {
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDRoll((byte) 0);
-                            deviceController.getFeatureMiniDrone().setPilotingPCMDFlag((byte) 0);
-                        }
-                        break;
-
-                    default:
-
-                        break;
-                }
-
-                return true;
+                return commands.roolRight(v, event);
             }
         });
 
