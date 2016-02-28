@@ -129,7 +129,7 @@ public class HelloWorldActivity extends Activity {
     private char pushChar(){
         typing=false;
         morse_ctr=0;
-        char[] table= {'|','E','T','I','A','N','M','S','U','R','W','D','K','G','O','H','V','F','|','L','|','P','J','B','X','C','Y','Z','Q','|','|'};
+        char[] table= {'|','E','T','I','A','N','M','S','U','R','W','D','K','G','O','H','V','F',' ','L',' ','P','J','B','X','C','Y','Z','Q','|','|'};
         int ind=1;
         for(int i=0;i<4;i++){
             if(morse_code[i]==1) ind*=2;
